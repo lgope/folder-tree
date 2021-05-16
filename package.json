@@ -1,5 +1,5 @@
 {
-  "name": "shopping-list",
+  "name": "folder-tree",
   "version": "1.0.0",
   "description": "Folder tree is a simple web application using nodejs and reactjs",
   "main": "server.js",

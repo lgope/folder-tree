@@ -11,31 +11,47 @@ import mongoPkg from 'mongodb';
 const { ObjectID } = mongoPkg;
 
 /**
- * update root object based on params
+ * Update root object based on params
  * @param root @String folder tree object
  * @param method @String method to be perform (create or delete)
- * @param body @String body depend on method if method is 'create' then body is new folder details else folder id and ancestor id;
+ * @param body @String body depend on method 👇
+ * if method is 'create' then body is new folder details else folder id and ancestor id;
  */
+const updateFolderTree = (method, body) => {
+  return new Promise(
+    catchAsync(async (resolve, reject) => {
+      const root = await Folder.findOne({ designation: 'root' });
 
-const updateFolderTree = (root, method, body) => {
-  const updateRoot = data => {
-    data.forEach(ch => {
-      if (ch._id.toString() === body.ancestor.toString()) {
-        ch.child =
-          method === 'create'
-            ? [...ch.child, { ...body }]
-            : ch.child.filter(
-                folder => folder._id.toString() !== body.id.toString()
-              );
-      } else if (ch.child.length > 0) updateRoot(ch.child);
-    });
-  };
+      // update folder tree data
+      const updateRoot = data => {
+        data.forEach(ch => {
+          if (ch._id.toString() === body.ancestor.toString()) {
+            ch.child =
+              method === 'create'
+                ? [...ch.child, { ...body }]
+                : ch.child.filter(
+                    folder => folder._id.toString() !== body.id.toString()
+                  );
+          } else if (ch.child.length > 0) updateRoot(ch.child);
+        });
+      };
 
-  updateRoot([root]);
+      updateRoot([root]);
 
-  return root;
+      const updatedTree = await Folder.findOneAndUpdate(
+        { designation: 'root' },
+        { $set: { child: root.child } },
+        { new: true }
+      );
+
+      resolve(updatedTree);
+    })
+  );
 };
 
+/**
+ * Get root folder
+ */
 export const getFoldersTree = catchAsync(async (req, res, next) => {
   const folders = await Folder.findOne({ designation: 'root' });
 
@@ -44,17 +60,18 @@ export const getFoldersTree = catchAsync(async (req, res, next) => {
 });
 
 /**
- * create a folder controler
+ * Create a folder controler
  * @param name @String folder name
  * @param ancestor @String ancestor id
  */
-
 export const createFolderTree = catchAsync(async (req, res, next) => {
-  const root = await Folder.findOne({ designation: 'root' });
-
   const { name, ancestor } = req.body;
 
-  const updatedRoot = updateFolderTree(root, 'create', {
+  if (!name || !ancestor) {
+    return next(new AppError('Please provide name and ancestor!', 400));
+  }
+
+  const updatedRoot = await updateFolderTree('create', {
     _id: ObjectID(),
     name,
     ancestor,
@@ -62,38 +79,27 @@ export const createFolderTree = catchAsync(async (req, res, next) => {
     designation: 'folder',
   });
 
-  const updatedTree = await Folder.findOneAndUpdate(
-    { designation: 'root' },
-    { $set: { child: updatedRoot.child } },
-    { new: true }
-  );
-
-  res.status(201).json(updatedTree);
+  res.status(201).json(updatedRoot);
 });
 
 /**
- * delete a folder controler
+ * Delete a folder controler
  * @param id @String folder id
  * @param ancestor @String ancestor id
  */
-
 export const deleteFolder = catchAsync(async (req, res, next) => {
-  const root = await Folder.findOne({ designation: 'root' });
-
   const { id, ancestor } = req.body;
 
-  const updatedRoot = updateFolderTree(root, 'delete', { id, ancestor });
+  if (!id || !ancestor) {
+    return next(new AppError('Please provide id and ancestor!', 400));
+  }
 
-  const updatedTree = await Folder.findOneAndUpdate(
-    { designation: 'root' },
-    { $set: { child: updatedRoot.child } },
-    { new: true }
-  );
+  const updatedRoot = await updateFolderTree('delete', { id, ancestor });
 
-  res.status(201).json(updatedTree);
+  res.status(202).json(updatedRoot);
 });
 
-// create folder tree controller
+// Create folder tree controller
 export const createFolderRoot = catchAsync(async (req, res, next) => {
   const newFolder = await Folder.create({ ...req.body });
   res.status(201).json(newFolder);
