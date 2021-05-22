@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
-import chalk from 'chalk'
+import dotenv from 'dotenv';
+import chalk from 'chalk';
 
 dotenv.config({ path: './config.env' });
 import app from './app.js';
@@ -13,15 +13,15 @@ const DB = process.env.DATABASE_URI.replace(
 
 // Connect to Mongo
 mongoose
-    // .connect(DB, {
-  .connect('mongodb://localhost/folder-tree', {
+  .connect(DB, {
+    // .connect('mongodb://localhost/folder-tree', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
   })
   .then(() => console.log('DB connection successful!'))
-  .catch((err) => console.log(chalk.redBright(err)));
+  .catch(err => console.log(chalk.redBright(err)));
 
 const port = process.env.PORT || 8080;
 app.listen(port, () =>

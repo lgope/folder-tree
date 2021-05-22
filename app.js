@@ -22,20 +22,26 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 // Routes
+/**
+ * At fist have to run /api/folders-tree/create-root
+ * For create root
+ */
 app.use('/api/folders-tree', folderTreeRoutes);
 
 // Serve static assets if in production
-// if (process.env.NODE_ENV === 'production') {
-//   // Set static folder
-//   app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
 
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// }
-// app.all('*', (req, res, next) => {
-//   next(new AppError(`Sorry! Can't find ${req.originalUrl} on this server!`, 404));
-// });
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+app.all('*', (req, res, next) => {
+  next(
+    new AppError(`Sorry! Can't find ${req.originalUrl} on this server!`, 404)
+  );
+});
 
 app.use(globalErrorHandler);
 

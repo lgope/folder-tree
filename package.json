@@ -1,5 +1,6 @@
 {
   "name": "folder-tree",
+  "author": "Lakshman Gope",
   "version": "1.0.0",
   "description": "Folder tree is a simple web application using nodejs and reactjs",
   "main": "server.js",
@@ -17,7 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/lgope/folder-tree.git"
   },
-  "author": "Lakshman Gope",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lgope/folder-tree/issues"
@@ -34,5 +34,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
+  },
+  "engines": {
+    "node": "^14"
   }
 }

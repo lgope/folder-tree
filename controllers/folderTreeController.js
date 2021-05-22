@@ -101,6 +101,10 @@ export const deleteFolder = catchAsync(async (req, res, next) => {
 
 // Create folder tree controller
 export const createFolderRoot = catchAsync(async (req, res, next) => {
-  const newFolder = await Folder.create({ ...req.body });
+  const newFolder = await Folder.create({
+    name: 'Root',
+    child: [],
+    designation: 'root',
+  });
   res.status(201).json(newFolder);
 });

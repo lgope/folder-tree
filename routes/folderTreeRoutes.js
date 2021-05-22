@@ -15,7 +15,9 @@ router.post('/create', folderTreeController.createFolderTree);
 
 // @route DELETE api/folders-tree/delete
 // @desc Delete An folder
-router.delete('/delete', folderTreeController.deleteFolder);
+router.patch('/delete', folderTreeController.deleteFolder);
 
-// router.post('/create-root', folderTreeController.createFolderRoot);
+// have to run first and only once
+router.post('/create-root', folderTreeController.createFolderRoot);
+
 export default router;
