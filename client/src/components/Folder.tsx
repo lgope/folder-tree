@@ -1,47 +1,38 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import Folders from './Folders';
 import { Icon, FolderLi } from '../Styles';
 import NewFolder from './NewFolder';
-import DeleteFolder from './DeleteFolder'
+import DeleteFolder from './DeleteFolder';
 
 // types
-import {IFolder} from '../types/interfaces';
+import { IFolder } from '../types/interfaces';
 
-const Folder = ({folder}: IFolder)  => {
+const Folder = ({ folder }: IFolder) => {
   const [showChild, setShowChild] = useState(false);
   const hasChild = folder?.child?.length ? true : false;
 
   const toggleShowChild = () => {
     setShowChild(!showChild);
-  }
+  };
 
   return (
     <FolderLi>
-      <div className={`folder-info ${hasChild && showChild && 'active'}`}
-      >
-          <div className={`folder-toggler ${showChild && 'active'}`}>
-          <Icon className='fas fa-caret-right'>
-          </Icon>
-          </div>
+      <div className={`folder-info ${hasChild && showChild && 'active'}`}>
+        <div className={`folder-toggler ${showChild && 'active'}`}>
+          <Icon className='fas fa-caret-right'></Icon>
+        </div>
 
-        <div className='folder-name'
-          onClick={toggleShowChild}
-        >
-          <Icon className='fas fa-folder'>
-          </Icon>
-            <span>{folder.name}</span>
-          </div>
+        <div className='folder-name' onClick={toggleShowChild}>
+          <Icon className='fas fa-folder'></Icon>
+          <span>{folder.name}</span>
 
-          {folder.designation !== 'root' && (
-          <div className="delete-action" title="Delete">
-            <DeleteFolder folder={folder}/>
-          </div>
-            )}
+          <span className="delete-action" title="Delete Folder">
+          {folder.designation !== 'root' && <DeleteFolder folder={folder} />}
+          </span>
+        </div>
 
         <div className='new-folder-action'>
-          <NewFolder
-            parentFolder={folder}
-          />
+          <NewFolder parentFolder={folder} />
         </div>
       </div>
 
@@ -51,6 +42,6 @@ const Folder = ({folder}: IFolder)  => {
       )}
     </FolderLi>
   );
-}
+};
 
 export default Folder;
