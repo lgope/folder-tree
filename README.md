@@ -1,19 +1,8 @@
 # folder-tree
-Folder tree using nodejs and reactjs
-
- <p align="center">
- <a href="#deployed-version">Demo</a> •
-  <a href="#key-features">Key Features</a> •
-  <a href="#demonstration">Demonstration</a> •
-  <a href="#build-with">Build With</a> •
-  <a href="#to-do">To-do</a> •
-  <a href="#installation">Installation</a> • 
-  <a href="#known-bugs">Known Bugs</a> •
-</p>
+Folder tree this is a assignment web app. Where show folder information with folder child node and parent node.
 
 ## Deployed Version
-Live demo (Feel free to visit) 👉 : https://lakshman-natours.herokuapp.com/
-
+Live demo (Feel free to visit) 👉 : https://folder-tree.herokuapp.com/
 
 ## Key Features
 
@@ -22,8 +11,9 @@ Live demo (Feel free to visit) 👉 : https://lakshman-natours.herokuapp.com/
 * Folder Add
 
 ## Build With
-* [ReactJS](https://nodejs.org/en/) - Frontend
-* [Style-compoent](https://nodejs.org/en/) - JS runtime environment
+* [ReactJS](https://reactjs.org/) - Frontend
+* [Styled Components](https://styled-components.com/) - Frontend style
+* [Axios](https://axios-http.com/) - API request
 * [NodeJS](https://nodejs.org/en/) - JS runtime environment
 * [Express](http://expressjs.com/) - The web framework used
 * [Mongoose](https://mongoosejs.com/) - Object Data Modelling (ODM) library
@@ -36,17 +26,10 @@ dependencies by running
 ```
 $ npm i
 set your env variables
-$ npm run watch:js
-$ npm run build:js
-$ npm run dev (for development)
-$ npm run start:prod (for production)
-$ npm run debug (for debug)
-$ npm start
-Setting up ESLint and Prettier in VS Code 👇
-$ npm i eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node
-eslint-plugin-import eslint-plugin-jsx-a11y  eslint-plugin-react --save-dev
+$ npm run client-install or cd client then run npm install
+in the root folder run 👇
+$ npm run both
 ```
-
 
 ## Known Bugs
 Feel free to email me at lakshman.gope2@gmail.com if you run into any issues or have questions, ideas or concerns.
